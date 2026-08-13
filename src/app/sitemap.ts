@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { services } from "@/content/services";
 import { projects } from "@/content/projects";
 import { blogRegistry } from "@/content/blog/registry";
+import { landings } from "@/content/landings";
 
 const siteUrl = "https://www.nmedia.ca";
 
@@ -67,5 +68,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${siteUrl}/en-ca/blog/${entry.slug.en}` },
   ]);
 
-  return [...staticEntries, ...serviceEntries, ...projectEntries, ...blogEntries];
+  const landingEntries: MetadataRoute.Sitemap = landings.flatMap((l) => [
+    {
+      url: `${siteUrl}/${l.slug.fr}`,
+      alternates: {
+        languages: {
+          "fr-CA": `${siteUrl}/${l.slug.fr}`,
+          "en-CA": `${siteUrl}/en-ca/${l.slug.en}`,
+        },
+      },
+    },
+    { url: `${siteUrl}/en-ca/${l.slug.en}` },
+  ]);
+
+  return [...staticEntries, ...serviceEntries, ...projectEntries, ...blogEntries, ...landingEntries];
 }
