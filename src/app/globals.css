@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Base typographique reproduisant assets/style/main.scss du site Nuxt source.
+ * Le site source utilise un root font-size a 62.5% (1rem = 10px) combine a des
+ * valeurs rem "base-10". Ici les composants utilisent directement les classes
+ * Tailwind text-12..text-67 (converties en px reels), donc le root reste a 16px
+ * standard (pas de trick 62.5%) pour ne pas perturber le reste de Tailwind.
+ */
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply font-rubik text-18 text-text bg-white antialiased;
+  }
+
+  h1 {
+    @apply font-bitter text-67 font-normal leading-[1.15] mt-0 mb-28;
+  }
+
+  h1 strong {
+    @apply font-normal text-primary;
+  }
+
+  h2 {
+    @apply font-bitter text-[clamp(2.37rem,2.6vw,3.16rem)] font-normal leading-[1.15] mb-28;
+  }
+
+  h3 {
+    @apply font-bitter text-[clamp(1.33rem,2.2vw,2.37rem)] font-normal leading-[1.15] mb-28;
+  }
+
+  h4 {
+    @apply font-bitter;
+  }
+
+  p,
+  ul,
+  ol {
+    @apply my-16;
+  }
+
+  a {
+    @apply text-primary underline decoration-1 underline-offset-2 transition-colors duration-300 hover:no-underline;
+  }
+}
+
+@layer components {
+  .rte {
+    @apply leading-[1.6];
+  }
+
+  .rte > :first-child {
+    @apply mt-0;
+  }
+
+  .rte > :last-child {
+    @apply mb-0;
+  }
+
+  .rte ul {
+    @apply max-w-[752px] list-none pl-0 mt-28;
+  }
+
+  .rte ul li {
+    @apply relative pl-32 mb-16;
+  }
+
+  .rte ul li::before {
+    content: "";
+    @apply absolute left-0 top-[6px] w-8 h-8 bg-primary rounded-full;
+  }
+
+  .rte blockquote {
+    @apply my-64 text-primary text-28 italic;
+  }
+
+  .btn {
+    @apply inline-flex flex-row items-center justify-start gap-16 px-16 py-[14px] bg-black text-white text-16 font-semibold leading-none rounded transition-colors duration-300 cursor-pointer hover:bg-[#34302B];
+  }
+
+  .btn-primary {
+    @apply btn bg-primary hover:bg-primary-hover;
+  }
+
+  .btn-outline {
+    @apply btn bg-transparent text-primary border-2 border-primary hover:text-primary-hover hover:border-primary-hover;
+  }
+
+  /* Variante "btn_big" du site source : padding 21px 20px, texte 18px */
+  .btn-big {
+    @apply px-20 py-[21px] text-18;
+  }
+
+  /*
+   * Grain sur les fonds pleins (or / noir).
+   * Le site source utilise une tuile JPEG de bruit inlinee dans son bundle
+   * (donc non telechargeable). On reproduit un grain equivalent via un bruit
+   * SVG (feTurbulence) : le bruit etant stochastique, le rendu est
+   * visuellement indiscernable de la tuile d'origine, sans binaire a servir.
+   */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.18;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  .wrapper {
+    /* padding fluide 6.25vw (percent(120,1920)), sans plafond de largeur —
+       fidele au site source qui n'impose pas de max-width sur .wrapper */
+    padding-left: 6.25vw;
+    padding-right: 6.25vw;
+  }
+
+  /* Defilement continu du bandeau de partenaires */
+  .marquee {
+    animation: marquee-scroll 40s linear infinite;
+  }
+
+  @keyframes marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      /* -50% car la liste est dupliquee une fois */
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee {
+      animation: none;
+    }
+  }
+
+  /* Titre du hero d'accueil : taille fluide propre au composant Banner
+     utilise en mode "accueil" (mesure sur le site source : ~49px @1440px,
+     ~65px @1920px -> clamp(28.43px, 3.4vw, 67.34px)) */
+  .hero-title {
+    font-size: clamp(28.43px, 3.4vw, 67.34px);
+  }
+
+  .reduced {
+    @apply max-w-reduced;
+  }
+}
