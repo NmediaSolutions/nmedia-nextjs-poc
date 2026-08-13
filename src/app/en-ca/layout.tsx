@@ -6,8 +6,15 @@ import Footer from "@/components/layout/Footer";
 import Gtm from "@/components/Gtm";
 import "../globals.css";
 
+// Version GitHub Pages (POC/demo) : jamais indexable par les moteurs de
+// recherche. Voir aussi src/app/robots.ts.
+const isStaticExport = process.env.STATIC_EXPORT === "true";
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.nmedia.ca"),
+  ...(isStaticExport
+    ? { robots: { index: false, follow: false, googleBot: { index: false, follow: false } } }
+    : {}),
 };
 
 export default function EnglishRootLayout({ children }: { children: React.ReactNode }) {
