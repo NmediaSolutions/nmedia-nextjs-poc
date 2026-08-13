@@ -1,4 +1,5 @@
 import type { LandingContent } from "../types";
+import { developpementApplicationsMobilesLanding } from "./developpement-applications-mobiles";
 
 /**
  * Registre des landing pages. Ajouter ici chaque nouvelle landing creee.
@@ -15,7 +16,7 @@ import type { LandingContent } from "../types";
  * Exemple complet exercant chacun des 10 types de section :
  * .opencode/skills/nmedia-landing-page/references/exemple-complet.ts
  */
-export const landings: LandingContent[] = [];
+export const landings: LandingContent[] = [developpementApplicationsMobilesLanding];
 
 export function findLandingBySlug(locale: "fr" | "en", slug: string): LandingContent | undefined {
   return landings.find((l) => l.slug[locale] === slug);
