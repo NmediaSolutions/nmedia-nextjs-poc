@@ -1,15 +1,11 @@
 import type { Locale } from "@/lib/i18n";
-import type { CardLink, SeoMeta } from "./types";
+import type { CardLink, Partner, SeoMeta } from "./types";
 
 /** La carte d'accueil utilise le meme contrat que les autres cartes du site */
 export type HomeCard = CardLink;
 
-export interface Partner {
-  name: string;
-  logo: string;
-  /** Annee de debut de la relation, affichee "Depuis AAAA" sur la carte */
-  since: string;
-}
+/** Reexporte depuis ./types (definition canonique) pour compatibilite avec le code existant. */
+export type { Partner };
 
 export interface HomeContent {
   seo: SeoMeta;
